@@ -62,6 +62,28 @@ namespace WpfTheAionProject.Models
         {
             return location.Accessible;
         }
+        public string OpenLocationsByRelic(int relicId)
+        {
+            string message = "This is not the queens relic";
+            Location mapLocation = new Location();
+
+            for (int row = 0; row < _maxRows; row++)
+            {
+                for (int column = 0; column < _maxColumns; column++)
+                {
+                    mapLocation = _mapLocations[row, column];
+
+                    if (mapLocation != null && mapLocation.RequiredRelicId == relicId)
+                    {
+                        mapLocation.Accessible = true;
+                        message = $"{mapLocation.Name} is now viewable! Go see the queen";
+                    }
+                }
+            }
+
+            return message;
+        }
+
 
         #endregion
     }

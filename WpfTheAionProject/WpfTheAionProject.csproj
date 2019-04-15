@@ -55,6 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\..\AionProject.cs" />
+    <Compile Include="Models\GameItemQuantity.cs" />
+    <Compile Include="Models\Potion.cs" />
+    <Compile Include="Models\Relic.cs" />
+    <Compile Include="Models\Treasure.cs" />
     <Compile Include="ObservableObjects.cs" />
     <Compile Include="Utilities\StringHelpers.cs" />
     <Page Include="MainWindow.xaml">

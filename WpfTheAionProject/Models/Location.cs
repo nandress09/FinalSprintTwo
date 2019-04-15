@@ -92,7 +92,7 @@ namespace WpfTheAionProject.Models
 
         public Location()
         {
-
+            _gameItems = new ObservableCollection<GameItemQuantity>();
         }
 
         #endregion
@@ -102,6 +102,63 @@ namespace WpfTheAionProject.Models
         public override string ToString()
         {
             return _name;
+        }
+
+        public void UpdateLocationGameItems()
+        {
+            ObservableCollection<GameItemQuantity> updatedLocationGameItems = new ObservableCollection<GameItemQuantity>();
+
+            foreach (GameItemQuantity gameItemQuantity in _gameItems)
+            {
+                updatedLocationGameItems.Add(gameItemQuantity);
+            }
+
+            GameItems.Clear();
+
+            foreach (GameItemQuantity gameItemQuantity in updatedLocationGameItems)
+            {
+                GameItems.Add(gameItemQuantity);
+            }
+        }
+
+        public void AddGameItemQuantityToLocation(GameItemQuantity selectedGameItemQuantity)
+        {
+           
+            GameItemQuantity gameItemQuantity = _gameItems.FirstOrDefault(i => i.GameItem.Id == selectedGameItemQuantity.GameItem.Id);
+
+            if (gameItemQuantity == null)
+            {
+                GameItemQuantity newGameItemQuantity = new GameItemQuantity();
+                newGameItemQuantity.GameItem = selectedGameItemQuantity.GameItem;
+                newGameItemQuantity.Quantity = 1;
+
+                _gameItems.Add(newGameItemQuantity);
+            }
+            else
+            {
+                gameItemQuantity.Quantity++;
+            }
+
+            UpdateLocationGameItems();
+        }
+
+        public void RemoveGameItemQuantityFromLocation(GameItemQuantity selectedGameItemQuantity)
+        {
+            GameItemQuantity gameItemQuantity = _gameItems.FirstOrDefault(i => i.GameItem.Id == selectedGameItemQuantity.GameItem.Id);
+
+            if (gameItemQuantity != null)
+            {
+                if (selectedGameItemQuantity.Quantity == 1)
+                {
+                    _gameItems.Remove(gameItemQuantity);
+                }
+                else
+                {
+                    gameItemQuantity.Quantity--;
+                }
+            }
+
+            UpdateLocationGameItems();
         }
 
         #endregion

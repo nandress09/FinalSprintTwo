@@ -24,6 +24,12 @@ namespace WpfTheAionProject.Models
         private int _experiencePoints;
         private JobTitleName _jobTitle;
         private List<Location> _locationsVisited;
+        private List<Location> _locationsVisited;
+        private ObservableCollection<GameItemQuantity> _inventory;
+        private ObservableCollection<GameItemQuantity> _potions;
+        private ObservableCollection<GameItemQuantity> _treasure;
+        private ObservableCollection<GameItemQuantity> _weapons;
+        private ObservableCollection<GameItemQuantity> _relics;
 
         #endregion
 
@@ -75,6 +81,39 @@ namespace WpfTheAionProject.Models
             set { _locationsVisited = value; }
         }
 
+        public ObservableCollection<GameItemQuantity> Inventory
+        {
+            get { return _inventory; }
+            set { _inventory = value; }
+        }
+
+        public ObservableCollection<GameItemQuantity> Weapons
+        {
+            get { return _weapons; }
+            set { _weapons = value; }
+        }
+
+        public ObservableCollection<GameItemQuantity> Potions
+        {
+            get { return _potions; }
+            set { _potions = value; }
+        }
+
+        public ObservableCollection<GameItemQuantity> Treasure
+        {
+            get { return _treasure; }
+            set { _treasure = value; }
+        }
+
+        public ObservableCollection<GameItemQuantity> Relics
+        {
+            get { return _relics; }
+            set { _relics = value; }
+        }
+
+
+
+
         #endregion
 
         #region CONSTRUCTORS
@@ -82,6 +121,10 @@ namespace WpfTheAionProject.Models
         public Player()
         {
             _locationsVisited = new List<Location>();
+            _weapons = new ObservableCollection<GameItemQuantity>();
+            _treasure = new ObservableCollection<GameItemQuantity>();
+            _potions = new ObservableCollection<GameItemQuantity>();
+            _relics = new ObservableCollection<GameItemQuantity>();
         }
 
         #endregion
@@ -93,11 +136,7 @@ namespace WpfTheAionProject.Models
             return _locationsVisited.Contains(location);
         }
 
-        /// <summary>
-        /// override the default greeting in the Character class to include the job title
-        /// set the proper article based on the job title
-        /// </summary>
-        /// <returns>default greeting</returns>
+   
         public override string DefaultGreeting()
         {
             string article = "a";
@@ -112,6 +151,65 @@ namespace WpfTheAionProject.Models
             return $"Hello, my name is {_name} and I am {article} {_jobTitle} for the Aion Project.";
         }
 
+        public void UpdateInventoryCategories()
+        {
+            Potions.Clear();
+            Weapons.Clear();
+            Treasure.Clear();
+            Relics.Clear();
+
+            foreach (var gameItemQuantity in _inventory)
+            {
+                if (gameItemQuantity.GameItem is Potion) Potions.Add(gameItemQuantity);
+                if (gameItemQuantity.GameItem is Weapon) Weapons.Add(gameItemQuantity);
+                if (gameItemQuantity.GameItem is Treasure) Treasure.Add(gameItemQuantity);
+                if (gameItemQuantity.GameItem is Relic) Relics.Add(gameItemQuantity);
+            }
+        }
+
+        public void CalculateWealth()
+        {
+            Wealth = _inventory.Sum(i => i.GameItem.Value * i.Quantity);
+        }
+
+        public void AddGameItemQuantityToInventory(GameItemQuantity selectedGameItemQuantity)
+        {
+           
+            GameItemQuantity gameItemQuantity = _inventory.FirstOrDefault(i => i.GameItem.Id == selectedGameItemQuantity.GameItem.Id);
+
+            if (gameItemQuantity == null)
+            {
+                GameItemQuantity newGameItemQuantity = new GameItemQuantity();
+                newGameItemQuantity.GameItem = selectedGameItemQuantity.GameItem;
+                newGameItemQuantity.Quantity = 1;
+
+                _inventory.Add(newGameItemQuantity);
+            }
+            else
+            {
+                gameItemQuantity.Quantity++;
+            }
+
+            UpdateInventoryCategories();
+        }
+        public void RemoveGameItemQuantityFromInventory(GameItemQuantity selectedGameItemQuantity)
+        {
+            GameItemQuantity gameItemQuantity = _inventory.FirstOrDefault(i => i.GameItem.Id == selectedGameItemQuantity.GameItem.Id);
+
+            if (gameItemQuantity != null)
+            {
+                if (selectedGameItemQuantity.Quantity == 1)
+                {
+                    _inventory.Remove(gameItemQuantity);
+                }
+                else
+                {
+                    gameItemQuantity.Quantity--;
+                }
+            }
+
+            UpdateInventoryCategories();
+        }
         #endregion
 
         #region EVENTS

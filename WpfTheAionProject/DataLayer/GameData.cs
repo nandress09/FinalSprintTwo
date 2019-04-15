@@ -105,9 +105,20 @@ namespace WpfTheAionProject.DataLayer
                 }
                 );
 
-            
-            // set the initial location for the player
-            
+            public static List<GameItem> StandardGameItems()
+            {
+                return new List<GameItem>()
+            {
+                new Weapon(1002, "Golden Chompers", 250, 1, 9, "It intimidates enemies when they can see your teeth", 10),
+                new Treasure(2001, "Gold Coin", 10, Treasure.TreasureType.Coin, "Useful for purchasing Dark Chocolate Laxative", 1),
+                new Treasure(2020, "Small Diamond", 50, Treasure.TreasureType.Jewel, "I bet that the gaurd would like this for some info", 1),
+                new Treasure(2030, "Fresh Bread", 10, Treasure.TreasureType.Manuscript, "I bet the baker would like this returned. Or you could eat it..", 5),
+                new Potion(3001, "Fresh Lamb", 5, 40, 1, "Cut fresh that day, made from the finest", 5),
+                new Relic(4001, "Queens Diamond", 5, "Has been a royal family peice for generations, said to bring joy to the forest", 5, "You can now see the queen", Relic.UseActionType.OPENLOCATION),
+                new Relic(4002, "Dark Chocolate Laxative", 5, "Poisonous to animals, delicious to humans", 5, "Your insides begin to fail, as life exists your body", Relic.UseActionType.KILLPLAYER)
+            };
+            }
+
             gameMap.CurrentLocation = gameMap.Locations.FirstOrDefault(l => l.Id == 1);
 
             return gameMap;
