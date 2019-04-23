@@ -9,12 +9,11 @@ namespace WpfTheAionProject.Models
     public class Treasure: GameItem
     {
         Coin,
-        Jewel,
-        Manuscript
+        Jewel
     }
     public TreasureType Type { get; set; }
 
-    public Treasure(int id, string name, int value, TreasureType type, string description, int experiencePoints)
+    public Treasure(int id, string name, int value, TreasureType, string description, int experiencePoints)
         : base(id, name, value, description, experiencePoints)
     {
         Type = type;

@@ -10,16 +10,8 @@ using System.Collections.ObjectModel;
 
 namespace WpfTheAionProject.BusinessLayer
 {
-    /// <summary>
-    /// business logic layer class
-    /// manages windows and interacts with the data layer
-    /// </summary>
     public class GameBusiness
     {
-        //
-        // true: open player setup window - uncomment the Close() method in InstantiateAndShowView
-        // false: player data coming from GameData class
-        //
         bool _newPlayer = false;
 
         GameSessionViewModel _gameSessionViewModel;
@@ -33,10 +25,7 @@ namespace WpfTheAionProject.BusinessLayer
             InitializeDataSet();
             InstantiateAndShowView();
         }
-
-        /// <summary>
-        /// setup new or existing player
-        /// </summary>
+        
         private void SetupPlayer()
         {
             if (_newPlayer)

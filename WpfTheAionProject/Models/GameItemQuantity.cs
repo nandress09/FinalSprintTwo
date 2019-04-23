@@ -9,7 +9,7 @@ namespace WpfTheAionProject.Models
      public class GameItemQuantity
     {
         public GameItem GameItem { get; set; }
-        public int Quantity { get; set }
+        public int Quantity { get; set; }
 
         public GameItemQuantity()
         {

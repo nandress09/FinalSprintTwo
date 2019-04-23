@@ -109,14 +109,13 @@ namespace WpfTheAionProject.Models
         {
             get { return _relics; }
             set { _relics = value; }
-        }
 
 
 
 
         #endregion
 
-        #region CONSTRUCTORS
+            #region CONSTRUCTORS
 
         public Player()
         {
@@ -192,6 +191,8 @@ namespace WpfTheAionProject.Models
 
             UpdateInventoryCategories();
         }
+
+       
         public void RemoveGameItemQuantityFromInventory(GameItemQuantity selectedGameItemQuantity)
         {
             GameItemQuantity gameItemQuantity = _inventory.FirstOrDefault(i => i.GameItem.Id == selectedGameItemQuantity.GameItem.Id);

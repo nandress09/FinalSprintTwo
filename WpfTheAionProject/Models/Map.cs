@@ -62,9 +62,15 @@ namespace WpfTheAionProject.Models
         {
             return location.Accessible;
         }
+
+        public GameItem GameItemById(int gameItemId)
+        {
+            return StandardGameItems.FirstOrDefault(i => i.Id == gameItemId);
+        }
+        
         public string OpenLocationsByRelic(int relicId)
         {
-            string message = "This is not the queens relic";
+            string message = "The relic did nothing.";
             Location mapLocation = new Location();
 
             for (int row = 0; row < _maxRows; row++)
@@ -76,7 +82,7 @@ namespace WpfTheAionProject.Models
                     if (mapLocation != null && mapLocation.RequiredRelicId == relicId)
                     {
                         mapLocation.Accessible = true;
-                        message = $"{mapLocation.Name} is now viewable! Go see the queen";
+                        message = $"{mapLocation.Name} is now accessible.";
                     }
                 }
             }

@@ -25,7 +25,12 @@ namespace WpfTheAionProject.DataLayer
                 Health = 100,
                 Lives = 3,
                 ExperiencePoints = 10,
-                LocationId = 0
+                LocationId = 0,
+                Inventory = new ObservableCollection<GameItemQuantity>()
+                {
+                    new GameItemQuantity(GameItemById(1002), 1),
+                    new GameItemQuantity(GameItemById(2001), 5),
+                }
             };
         }
 
@@ -76,6 +81,7 @@ namespace WpfTheAionProject.DataLayer
                     Description = "Who else to want your baby dead than that of the Queen? She always looked so mean toward animals",
                     Accessible = false,
                     ModifiyExperiencePoints = 50,
+                    RequiredRelicId = 4001,
                     ModifyLives = -1,
                     RequiredExperiencePoints = 40
                 }
@@ -110,9 +116,9 @@ namespace WpfTheAionProject.DataLayer
                 return new List<GameItem>()
             {
                 new Weapon(1002, "Golden Chompers", 250, 1, 9, "It intimidates enemies when they can see your teeth", 10),
-                new Treasure(2001, "Gold Coin", 10, Treasure.TreasureType.Coin, "Useful for purchasing Dark Chocolate Laxative", 1),
-                new Treasure(2020, "Small Diamond", 50, Treasure.TreasureType.Jewel, "I bet that the gaurd would like this for some info", 1),
-                new Treasure(2030, "Fresh Bread", 10, Treasure.TreasureType.Manuscript, "I bet the baker would like this returned. Or you could eat it..", 5),
+                new Treasure(1001, "Gold Coin", 10, Treasure.TreasureType.Coin, "Useful for purchasing Dark Chocolate Laxative", 1),
+                new Treasure(2001, "Small Diamond", 50, Treasure.TreasureType.Jewel, "I bet that the gaurd would like this for some info", 1),
+                new Treasure(2002, "Fresh Bread", 10, Treasure.TreasureType.Manuscript, "I bet the baker would like this returned. Or you could eat it..", 5),
                 new Potion(3001, "Fresh Lamb", 5, 40, 1, "Cut fresh that day, made from the finest", 5),
                 new Relic(4001, "Queens Diamond", 5, "Has been a royal family peice for generations, said to bring joy to the forest", 5, "You can now see the queen", Relic.UseActionType.OPENLOCATION),
                 new Relic(4002, "Dark Chocolate Laxative", 5, "Poisonous to animals, delicious to humans", 5, "Your insides begin to fail, as life exists your body", Relic.UseActionType.KILLPLAYER)
@@ -123,5 +129,9 @@ namespace WpfTheAionProject.DataLayer
 
             return gameMap;
         }
+
+
+
+
     }
 }

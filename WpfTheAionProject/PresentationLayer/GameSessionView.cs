@@ -264,6 +264,110 @@ namespace WpfTheAionProject.PresentationLayer
             _gameTime = DateTime.Now - _gameStartTime;
             MissionTimeDisplay = "Mission Time " + _gameTime.ToString(@"hh\:mm\:ss");
         }
+        private void InitializeView()
+        {
+            _gameStartTime = DateTime.Now;
+            UpdateAvailableTravelPoints();
+            _currentLocationInformation = CurrentLocation.Description;
+            _player.UpdateInventoryCategories();
+            _player.CalculateWealth();
+        }
+        public void AddItemToInventory()
+        {
+            //
+            // confirm a game item selected and is in current location
+            // subtract from location and add to inventory
+            //
+            if (_currentGameItem != null && _currentLocation.GameItems.Contains(_currentGameItem))
+            {
+                //
+                // cast selected game item 
+                //
+                GameItemQuantity selectedGameItemQuantity = _currentGameItem as GameItemQuantity;
+
+                _currentLocation.RemoveGameItemQuantityFromLocation(selectedGameItemQuantity);
+                _player.AddGameItemQuantityToInventory(selectedGameItemQuantity);
+
+                OnPlayerPickUp(selectedGameItemQuantity);
+            }
+        }
+        public void RemoveItemFromInventory()
+        {
+            //
+            // confirm a game item selected and is in inventory
+            // subtract from inventory and add to location
+            //
+            if (_currentGameItem != null)
+            {
+                //
+                // cast selected game item 
+                //
+                GameItemQuantity selectedGameItemQuantity = _currentGameItem as GameItemQuantity;
+
+                _currentLocation.AddGameItemQuantityToLocation(selectedGameItemQuantity);
+                _player.RemoveGameItemQuantityFromInventory(selectedGameItemQuantity);
+
+                OnPlayerPutDown(selectedGameItemQuantity);
+            }
+        }
+        private void OnPlayerPickUp(GameItemQuantity gameItemQuantity)
+        {
+            _player.ExperiencePoints += gameItemQuantity.GameItem.ExperiencePoints;
+            _player.Wealth += gameItemQuantity.GameItem.Value;
+        }
+
+        public void OnUseGameItem()
+        {
+            switch (_currentGameItem.GameItem)
+            {
+                case Potion potion:
+                    ProcessPotionUse(potion);
+                    break;
+                case Relic relic:
+                    ProcessRelicUse(relic);
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void ProcessRelicUse(Relic relic)
+        {
+            string message;
+
+            switch (relic.UseAction)
+            {
+                case Relic.UseActionType.OPENLOCATION:
+                    message = _gameMap.OpenLocationsByRelic(relic.Id);
+                    CurrentLocationInformation = relic.UseMessage;
+                    break;
+                case Relic.UseActionType.KILLPLAYER:
+                    OnPlayerDies(relic.UseMessage);
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void OnPlayerDies(string message)
+        {
+            string messagetext = message +
+                "\n\nWould you like to play again?";
+
+            string titleText = "Death";
+            MessageBoxButton button = MessageBoxButton.YesNo;
+            MessageBoxResult result = MessageBox.Show(messagetext, titleText, button);
+
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    ResetPlayer();
+                    break;
+                case MessageBoxResult.No:
+                    QuiteApplication();
+                    break;
+            }
+        }
+
+
 
         #endregion
 
