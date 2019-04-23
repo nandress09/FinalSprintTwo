@@ -9,7 +9,7 @@ namespace WpfTheAionProject.Models
     /// <summary>
     /// class for the game map locations
     /// </summary>
-    public class Location
+    public class Location : ObservableObject
     {
         #region ENUMS
 
@@ -23,10 +23,13 @@ namespace WpfTheAionProject.Models
         private string _description;
         private bool _accessible;
         private int _requiredExperiencePoints;
-        private int _modifyExperiencePoints;
+        private int _requiredRelicId;
+        private int _modifiyExperiencePoints;
         private int _modifyHealth;
         private int _modifyLives;
         private string _message;
+       private ObservableCollection<GameItemQuantity> _gameItems;
+       // private ObservableCollection<Npc> _npcs;
 
         #endregion
 
@@ -58,8 +61,8 @@ namespace WpfTheAionProject.Models
 
         public int ModifiyExperiencePoints
         {
-            get { return _modifyExperiencePoints; }
-            set { _modifyExperiencePoints = value; }
+            get { return _modifiyExperiencePoints; }
+            set { _modifiyExperiencePoints = value; }
         }
 
         public int RequiredExperiencePoints
@@ -68,10 +71,10 @@ namespace WpfTheAionProject.Models
             set { _requiredExperiencePoints = value; }
         }
 
-        public string Message
+        public int RequiredRelicId
         {
-            get { return _message; }
-            set { _message = value; }
+            get { return _requiredRelicId; }
+            set { _requiredRelicId = value; }
         }
 
         public int ModifyHealth
@@ -86,6 +89,26 @@ namespace WpfTheAionProject.Models
             set { _modifyLives = value; }
         }
 
+        public string Message
+        {
+            get { return _message; }
+            set { _message = value; }
+        }
+
+        public ObservableCollection<GameItemQuantity> GameItems
+        {
+            get { return _gameItems; }
+            set { _gameItems = value; }
+        }
+
+
+        public ObservableCollection<Npc> Npcs
+        {
+            get { return _npcs; }
+            set { _npcs = value; }
+        }
+
+
         #endregion
 
         #region CONSTRUCTORS
@@ -99,11 +122,18 @@ namespace WpfTheAionProject.Models
 
         #region METHODS
 
-        public override string ToString()
+        //
+        // location is open if character has enough XP
+        //
+        public bool IsAccessibleByExperiencePoints(int playerExperiencePoints)
         {
-            return _name;
+            return playerExperiencePoints >= _requiredExperiencePoints ? true : false;
         }
 
+        //
+        // Stopgap to force the list of items in the location to update
+        //
+        // Velis todo refactor using the CollectionChanged event
         public void UpdateLocationGameItems()
         {
             ObservableCollection<GameItemQuantity> updatedLocationGameItems = new ObservableCollection<GameItemQuantity>();
@@ -121,9 +151,15 @@ namespace WpfTheAionProject.Models
             }
         }
 
+        /// <summary>
+        /// add selected item to location or update quantity if already in location
+        /// </summary>
+        /// <param name="selectedGameItemQuantity">selected item</param>
         public void AddGameItemQuantityToLocation(GameItemQuantity selectedGameItemQuantity)
         {
-           
+            //
+            // locate selected item in location
+            //
             GameItemQuantity gameItemQuantity = _gameItems.FirstOrDefault(i => i.GameItem.Id == selectedGameItemQuantity.GameItem.Id);
 
             if (gameItemQuantity == null)
@@ -142,8 +178,15 @@ namespace WpfTheAionProject.Models
             UpdateLocationGameItems();
         }
 
+        /// <summary>
+        /// remove selected item from location or update quantity
+        /// </summary>
+        /// <param name="selectedGameItemQuantity">selected item</param>
         public void RemoveGameItemQuantityFromLocation(GameItemQuantity selectedGameItemQuantity)
         {
+            //
+            // locate selected item in location
+            //
             GameItemQuantity gameItemQuantity = _gameItems.FirstOrDefault(i => i.GameItem.Id == selectedGameItemQuantity.GameItem.Id);
 
             if (gameItemQuantity != null)
@@ -160,7 +203,6 @@ namespace WpfTheAionProject.Models
 
             UpdateLocationGameItems();
         }
-
         #endregion
     }
 }

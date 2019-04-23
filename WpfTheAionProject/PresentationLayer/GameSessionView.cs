@@ -259,19 +259,6 @@ namespace WpfTheAionProject.PresentationLayer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void OnGameTimerTick(object sender, EventArgs e)
-        {
-            _gameTime = DateTime.Now - _gameStartTime;
-            MissionTimeDisplay = "Mission Time " + _gameTime.ToString(@"hh\:mm\:ss");
-        }
-        private void InitializeView()
-        {
-            _gameStartTime = DateTime.Now;
-            UpdateAvailableTravelPoints();
-            _currentLocationInformation = CurrentLocation.Description;
-            _player.UpdateInventoryCategories();
-            _player.CalculateWealth();
-        }
         public void AddItemToInventory()
         {
             //
@@ -291,6 +278,11 @@ namespace WpfTheAionProject.PresentationLayer
                 OnPlayerPickUp(selectedGameItemQuantity);
             }
         }
+
+        /// <summary>
+        /// remove item from the players inventory
+        /// </summary>
+        /// <param name="selectedItem"></param>
         public void RemoveItemFromInventory()
         {
             //
@@ -310,12 +302,29 @@ namespace WpfTheAionProject.PresentationLayer
                 OnPlayerPutDown(selectedGameItemQuantity);
             }
         }
+
+        /// <summary>
+        /// process events when a player picks up a new game item
+        /// </summary>
+        /// <param name="gameItemQuantity">new game item</param>
         private void OnPlayerPickUp(GameItemQuantity gameItemQuantity)
         {
             _player.ExperiencePoints += gameItemQuantity.GameItem.ExperiencePoints;
             _player.Wealth += gameItemQuantity.GameItem.Value;
         }
 
+        /// <summary>
+        /// process events when a player puts down a new game item
+        /// </summary>
+        /// <param name="gameItemQuantity">new game item</param>
+        private void OnPlayerPutDown(GameItemQuantity gameItemQuantity)
+        {
+            _player.Wealth -= gameItemQuantity.GameItem.Value;
+        }
+
+        /// <summary>
+        /// process using an item in the player's inventory
+        /// </summary>
         public void OnUseGameItem()
         {
             switch (_currentGameItem.GameItem)
@@ -330,6 +339,11 @@ namespace WpfTheAionProject.PresentationLayer
                     break;
             }
         }
+
+        /// <summary>
+        /// process the effects of using the relic
+        /// </summary>
+        /// <param name="potion">potion</param>
         private void ProcessRelicUse(Relic relic)
         {
             string message;
@@ -347,6 +361,22 @@ namespace WpfTheAionProject.PresentationLayer
                     break;
             }
         }
+
+        /// <summary>
+        /// process the effects of using the potion
+        /// </summary>
+        /// <param name="potion">potion</param>
+        private void ProcessPotionUse(Potion potion)
+        {
+            _player.Health += potion.HealthChange;
+            _player.Lives += potion.LivesChange;
+            _player.RemoveGameItemQuantityFromInventory(_currentGameItem);
+        }
+
+        /// <summary>
+        /// process player dies with option to reset and play again
+        /// </summary>
+        /// <param name="message">message regarding player death</param>
         private void OnPlayerDies(string message)
         {
             string messagetext = message +
@@ -366,7 +396,6 @@ namespace WpfTheAionProject.PresentationLayer
                     break;
             }
         }
-
 
 
         #endregion

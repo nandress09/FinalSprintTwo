@@ -22,15 +22,15 @@ namespace WpfTheAionProject.Models
         {
             if (HealthChange != 0)
             {
-                return $"{ItemName}: {Description}\nHealth: {HealthChange}";
+                return $"{Name}: {Description}\nHealth: {HealthChange}";
             }
             else if (LivesChange != 0)
             {
-                return $"{ItemName}: {Description}\nLives: {LivesChange}";
+                return $"{Name}: {Description}\nLives: {LivesChange}";
             }
             else
             {
-                return $"{ItemName}: {Description}";
+                return $"{Name}: {Description}";
             }
         }
     }

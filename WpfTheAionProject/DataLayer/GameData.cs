@@ -55,7 +55,7 @@ namespace WpfTheAionProject.DataLayer
                 {
                     Id = 2,
                     Name = "The Bakery",
-                    Description = "/t The bakery has no need for you or your baby, he simply is a baker,  though he does send his regards" ,
+                    Description = "/t The bakery has no need for you or your baby, he simply is a baker,  though he does send his regards",
                     Accessible = true,
                     ModifiyExperiencePoints = 10,
                     Message = "To find more clues about your lost baby, please continue to explore the different buildings in the village."
@@ -90,7 +90,7 @@ namespace WpfTheAionProject.DataLayer
             gameMap.Locations.Add
                 (new Location()
                 {
-                   Id = 5,
+                    Id = 5,
                     Name = "The Leather Market",
                     Description = "The Leather market reeks of dead babes.. best be on gaurd",
                     Accessible = false,
@@ -110,12 +110,10 @@ namespace WpfTheAionProject.DataLayer
                     ModifiyExperiencePoints = 10
                 }
                 );
-
             public static List<GameItem> StandardGameItems()
             {
                 return new List<GameItem>()
             {
-                new Weapon(1002, "Golden Chompers", 250, 1, 9, "It intimidates enemies when they can see your teeth", 10),
                 new Treasure(1001, "Gold Coin", 10, Treasure.TreasureType.Coin, "Useful for purchasing Dark Chocolate Laxative", 1),
                 new Treasure(2001, "Small Diamond", 50, Treasure.TreasureType.Jewel, "I bet that the gaurd would like this for some info", 1),
                 new Treasure(2002, "Fresh Bread", 10, Treasure.TreasureType.Manuscript, "I bet the baker would like this returned. Or you could eat it..", 5),

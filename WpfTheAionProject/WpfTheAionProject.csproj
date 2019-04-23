@@ -55,8 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\..\AionProject.cs" />
-    <Compile Include="..\..\..\cit195\TheAionProject.cs" />
+    <Compile Include="DataLayer\GameData.cs" />
     <Compile Include="Models\GameItem.cs" />
     <Compile Include="Models\GameItemQuantity.cs" />
     <Compile Include="Models\Potion.cs" />
@@ -64,19 +63,11 @@
     <Compile Include="Models\Treasure.cs" />
     <Compile Include="ObservableObjects.cs" />
     <Compile Include="Utilities\StringHelpers.cs" />
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BusinessLayer\GameBuisness.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Page Include="PresentationLayer\GameSessionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

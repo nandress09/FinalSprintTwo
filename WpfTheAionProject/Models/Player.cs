@@ -109,6 +109,7 @@ namespace WpfTheAionProject.Models
         {
             get { return _relics; }
             set { _relics = value; }
+        }
 
 
 
